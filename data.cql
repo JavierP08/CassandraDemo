@@ -1,17 +1,23 @@
--- Create a keyspace
-CREATE KEYSPACE IF NOT EXISTS store WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : '1' };
+-- Crear un keyspace con estrategia de replicación recomendada para ambientes distribuidos
+CREATE KEYSPACE IF NOT EXISTS store WITH REPLICATION = {
+  'class' : 'NetworkTopologyStrategy', 
+  'datacenter1' : 3  -- Ajusta 'datacenter1' al nombre de tu centro de datos y el factor de replicación deseado
+};
 
--- Create a table
+-- Crear una tabla con más campos para hacer consultas más interesantes
 CREATE TABLE IF NOT EXISTS store.shopping_cart (
-userid text PRIMARY KEY,
-item_count int,
-last_update_timestamp timestamp
+  userid text PRIMARY KEY,
+  item_count int,
+  last_update_timestamp timestamp,
+  cart_details map<text, int>  -- un mapa de producto a cantidad para demostrar el trabajo con tipos de datos complejos
 );
 
--- Insert some data
-INSERT INTO store.shopping_cart
-(userid, item_count, last_update_timestamp)
-VALUES ('9876', 2, toTimeStamp(now()));
-INSERT INTO store.shopping_cart
-(userid, item_count, last_update_timestamp)
-VALUES ('1234', 5, toTimeStamp(now()));
+-- Insertar algunos datos
+INSERT INTO store.shopping_cart (userid, item_count, last_update_timestamp, cart_details)
+VALUES ('9876', 2, toTimeStamp(now()), {'productA': 2});
+INSERT INTO store.shopping_cart (userid, item_count, last_update_timestamp, cart_details)
+VALUES ('1234', 5, toTimeStamp(now()), {'productB': 2, 'productC': 3});
+
+-- Crear índices secundarios para consultas más flexibles
+CREATE INDEX ON store.shopping_cart(item_count);
+CREATE INDEX ON store.shopping_cart(keys(cart_details));

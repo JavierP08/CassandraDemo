@@ -1,16 +1,19 @@
 {
-    "name": "Cassandra Dev Environment",
-    "build": {
-      "dockerfile": "Dockerfile",
-      "context": ".."
-    },
-    "settings": {
-      "terminal.integrated.shell.linux": "/bin/bash"
-    },
-    "extensions": [
-      "ms-python.python"
-    ],
-    "forwardPorts": [9042],
-    "postCreateCommand": "sh setup.sh"
-  }
-  
+  "name": "Cassandra Dev Environment",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      "extensions": [
+        "ms-python.python"
+      ]
+    }
+  },
+  "forwardPorts": [9042],
+  "postCreateCommand": "sh setup.sh"
+}

@@ -2,6 +2,10 @@
     "name": "Cassandra Demo",
     "image": "cassandra:latest",
 
+    "features": {
+        "docker-in-docker": "latest"
+    },
+
     "customizations": {
         "vscode": {
             "extensions": [
@@ -13,8 +17,7 @@
         }
     },
 
-    "postCreateCommand": "bash /workspace/setup-cassandra.sh",
-
+    "postCreateCommand": "dockerd-entrypoint.sh &",
     "mounts": [
         "source=${localWorkspaceFolder}/data.cql,target=/workspace/data.cql,type=bind"
     ],

@@ -1,0 +1,23 @@
+{
+    "name": "Cassandra Demo",
+    "image": "cassandra:latest",
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode-remote.remote-containers"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            }
+        }
+    },
+
+    "postCreateCommand": "bash /workspace/setup-cassandra.sh",
+
+    "mounts": [
+        "source=${localWorkspaceFolder}/data.cql,target=/workspace/data.cql,type=bind"
+    ],
+
+    "remoteUser": "root"
+}
